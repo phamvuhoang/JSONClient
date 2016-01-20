@@ -5,6 +5,8 @@ import com.loopj.android.http.RequestParams;
 import com.secualinc.common.HttpClient;
 import com.secualinc.common.HttpClientResponse;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -74,6 +76,16 @@ public class Login extends Activity {
         		str = response.toString();
         	}
             Log.d("LoginResponse", "onSuccessResult statusCode=" + statusCode + "/response=" + str);
+            
+            final AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
+            alertDialog.setTitle("Info");
+            alertDialog.setMessage("Login authentication success");
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+		            alertDialog.dismiss();
+		            }
+	            });
+            alertDialog.show();            
         }
 
         @Override
@@ -83,6 +95,16 @@ public class Login extends Activity {
         		str = response.toString();
         	}
             Log.d("LoginResponse", "onFailureResult statusCode=" + statusCode + "/response=" + str);
+            
+            final AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
+            alertDialog.setTitle("Info");
+            alertDialog.setMessage("Login authentication failed");
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+	            public void onClick(DialogInterface dialog, int which) {
+		            alertDialog.dismiss();
+		            }
+	            });
+            alertDialog.show();            
         }
     }
     
