@@ -24,14 +24,14 @@ public abstract class HttpClientResponse extends JsonHttpResponseHandler {
 
     @Override
     public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-        Log.d("HttpClientResponse", "onSuccess response=" + response.toString());
+    	Log.d("HttpClientResponse", "onSuccess response=" + response.toString());
 
         //this.statusCode = getStatusCode(response);
         this.headers = headers;
         this.responseData = response;
 
-        if (HTTP_SUCCESS == this.statusCode) {
-        	onSuccessHandler(this.statusCode, response);
+        if (HTTP_SUCCESS == statusCode) {
+        	onSuccessHandler(HTTP_SUCCESS, response);
         } else {
         	onFailureHandler(this.statusCode, response);
         }
@@ -39,7 +39,7 @@ public abstract class HttpClientResponse extends JsonHttpResponseHandler {
 
     @Override
     public void onFailure(int statusCode, Header[] headers, String error, Throwable e) {
-        Log.d("HttpClientResponse", "onFailure error=" + error);
+    	Log.d("HttpClientResponse", "onFailure error=" + error);
 
         String jsonMsg = COMMON_UNKNOWN_ERROR_JSON;
 

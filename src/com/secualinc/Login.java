@@ -1,12 +1,9 @@
 package com.secualinc;
 
 import org.json.JSONObject;
-
 import com.loopj.android.http.RequestParams;
 import com.secualinc.common.HttpClient;
 import com.secualinc.common.HttpClientResponse;
-
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
 
 public class Login extends Activity {
 	
@@ -62,7 +58,8 @@ public class Login extends Activity {
     	params.add("password", password);
     	LoginResponse response = new LoginResponse();
     	
-    	HttpClient.post("/api/v1/auth", params, response);
+    	HttpClient.post("/api/v1/auth/sign_in", params, response);
+    	
     }
     
     /**
@@ -72,12 +69,20 @@ public class Login extends Activity {
 
         @Override
         public void onSuccessHandler(int statusCode, JSONObject response) {
-            Log.d("LoginResponse", "onSuccessResult statusCode=" + statusCode + "/response=" + response.toString());
+        	String str = "";
+        	if (response != null){
+        		str = response.toString();
+        	}
+            Log.d("LoginResponse", "onSuccessResult statusCode=" + statusCode + "/response=" + str);
         }
 
         @Override
         public void onFailureHandler(int statusCode, JSONObject response) {
-            Log.d("LoginResponse", "onFailureResult statusCode=" + statusCode + "/response=" + response.toString());
+        	String str = "";
+        	if (response != null){
+        		str = response.toString();
+        	}
+            Log.d("LoginResponse", "onFailureResult statusCode=" + statusCode + "/response=" + str);
         }
     }
     
