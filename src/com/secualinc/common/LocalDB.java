@@ -49,4 +49,40 @@ public class LocalDB {
     public String getToken() {
         return mSharedPreferences.getString(Constants.ACCESS_TOKEN, "");
     }
+
+    /**
+     * Save client to use in every api calls
+     * @param client
+     */
+    public void saveClient(String client) {
+        mEditor = mSharedPreferences.edit();
+        mEditor.putString(Constants.CLIENT, client);
+        mEditor.commit();
+    }
+
+    /**
+     * Get client
+     * @return
+     */
+    public String getClient() {
+        return mSharedPreferences.getString(Constants.CLIENT, "");
+    }
+
+    /**
+     * Save uid to use in every api calls
+     * @param uid
+     */
+    public void saveUID(String uid) {
+        mEditor = mSharedPreferences.edit();
+        mEditor.putString(Constants.UID, uid);
+        mEditor.commit();
+    }
+
+    /**
+     * Get uid
+     * @return
+     */
+    public String getUID() {
+        return mSharedPreferences.getString(Constants.UID, "");
+    }
 }

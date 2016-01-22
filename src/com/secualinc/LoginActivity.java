@@ -93,12 +93,15 @@ public class LoginActivity extends Activity {
 //            alertDialog.show();
             
             int len = headers.length;
+    		LocalDB localDB = LocalDB.getInstance(LoginActivity.this);
             for (int i = 0; i < len; i++) {
             	Header header = headers[i];
             	if (Constants.ACCESS_TOKEN.equals(header.getName())) {
-            		LocalDB localDB = LocalDB.getInstance(LoginActivity.this);
             		localDB.saveToken(header.getValue());
-            		break;
+            	} else if (Constants.CLIENT.equals(header.getName())) {
+            		localDB.saveClient(header.getValue());
+            	} else if (Constants.UID.equals(header.getName())) {
+            		localDB.saveClient(header.getValue());
             	}
             }
             

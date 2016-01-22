@@ -16,7 +16,7 @@ import com.secualinc.common.SecualWebViewClient;
 
 public class WebViewActivity extends Activity {
 	private WebView webView;
-	private String accessTokenParam;
+	private String commonParams;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,9 @@ public class WebViewActivity extends Activity {
 		
 		// Set access token parameter
 		LocalDB localDB = LocalDB.getInstance(this);
-		accessTokenParam = "access-token=".concat(localDB.getToken());
+		commonParams = "access-token=".concat(localDB.getToken())
+				.concat("&uid=".concat(localDB.getUID()))
+				.concat("&client=".concat(localDB.getClient()));
 		
 		//Get webview 
 		webView = (WebView) findViewById(R.id.webview);
@@ -64,12 +66,12 @@ public class WebViewActivity extends Activity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {   
             	if (url.startsWith("http")) {
-            		if (url.indexOf(accessTokenParam) > -1){
+            		if (url.indexOf(commonParams) > -1){
             			view.loadUrl(url);
             		} else if (url.indexOf("?") > -1){
-	            		view.loadUrl(url + "&" + accessTokenParam);
+	            		view.loadUrl(url + "&" + commonParams);
 	            	} else {
-	            		view.loadUrl(url + "?" + accessTokenParam);
+	            		view.loadUrl(url + "?" + commonParams);
 	            	}
                 } else{
                 	view.loadUrl(url);
