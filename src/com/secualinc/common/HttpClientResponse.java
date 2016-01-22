@@ -15,8 +15,8 @@ public abstract class HttpClientResponse extends JsonHttpResponseHandler {
 	private static final int HTTP_UNKNOWN_ERROR = 999;
 	private static final String COMMON_UNKNOWN_ERROR_JSON = "";
 
-	private int statusCode;
-    private Header[] headers;
+	protected int statusCode;
+    protected Header[] headers;
     private JSONObject responseData;
 
     public abstract void onSuccessHandler(int statusCode, JSONObject response);

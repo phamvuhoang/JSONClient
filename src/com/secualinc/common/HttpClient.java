@@ -5,7 +5,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 public class HttpClient {
-	private static final String BASE_URL = "http://zxc.cz:5000";
     private static AsyncHttpClient client = new AsyncHttpClient();
 
     /**
@@ -46,7 +45,7 @@ public class HttpClient {
      * @return
      */
     private static String getAbsoluteURL(String relativeURL ) {
-        return BASE_URL + relativeURL;
+        return Constants.BASE_URL + relativeURL;
     }
 
     /**

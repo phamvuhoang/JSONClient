@@ -2,11 +2,16 @@ package com.secualinc;
 
 import org.json.JSONObject;
 import com.loopj.android.http.RequestParams;
+import com.secualinc.common.Constants;
 import com.secualinc.common.HttpClient;
 import com.secualinc.common.HttpClientResponse;
+import com.secualinc.common.LocalDB;
+
+import cz.msebera.android.httpclient.Header;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-public class Login extends Activity {
+public class LoginActivity extends Activity {
 	
 	private EditText mEmail;
 	private EditText mPassword;
@@ -56,11 +61,11 @@ public class Login extends Activity {
     	String password = mPassword.getText().toString().trim();
     	
     	RequestParams params = new RequestParams();
-    	params.add("email", email);
-    	params.add("password", password);
+    	params.add(Constants.PARAM_EMAIL, email);
+    	params.add(Constants.PARAM_PASSWORD, password);
     	LoginResponse response = new LoginResponse();
     	
-    	HttpClient.post("/api/v1/auth/sign_in", params, response);
+    	HttpClient.post(Constants.API_AUTH, params, response);
     	
     }
     
@@ -77,15 +82,27 @@ public class Login extends Activity {
         	}
             Log.d("LoginResponse", "onSuccessResult statusCode=" + statusCode + "/response=" + str);
             
-            final AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
-            alertDialog.setTitle("Info");
-            alertDialog.setMessage("Login authentication success");
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-	            public void onClick(DialogInterface dialog, int which) {
-		            alertDialog.dismiss();
-		            }
-	            });
-            alertDialog.show();            
+//            final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+//            alertDialog.setTitle("Info");
+//            alertDialog.setMessage("Login authentication success");
+//            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+//	            public void onClick(DialogInterface dialog, int which) {
+//		            alertDialog.dismiss();
+//		            }
+//	            });
+//            alertDialog.show();
+            
+            int len = headers.length;
+            for (int i = 0; i < len; i++) {
+            	Header header = headers[i];
+            	if (Constants.ACCESS_TOKEN.equals(header.getName())) {
+            		LocalDB localDB = LocalDB.getInstance(LoginActivity.this);
+            		localDB.saveToken(header.getValue());
+            		break;
+            	}
+            }
+            
+            startActivity(new Intent(LoginActivity.this, WebViewActivity.class));
         }
 
         @Override
@@ -96,7 +113,7 @@ public class Login extends Activity {
         	}
             Log.d("LoginResponse", "onFailureResult statusCode=" + statusCode + "/response=" + str);
             
-            final AlertDialog alertDialog = new AlertDialog.Builder(Login.this).create();
+            final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
             alertDialog.setTitle("Info");
             alertDialog.setMessage("Login authentication failed");
             alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
